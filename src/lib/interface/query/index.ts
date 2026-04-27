@@ -11,7 +11,7 @@ export type { IDBQueryGetKey } from './idb-query-get-key.interface';
 export type { IDBQueryIndex } from './idb-query-index.interface';
 
 export type { IDBQueryMethod } from './idb-query-method.interface';
-export type { IDBQueryMethod_Store } from '../../type/query/idb-query-method-store.type';
+export type { IDBQueryMethodToStore } from '../../type/query/idb-query-method-to-store.type';
 
 export type { IDBQueryOpenCursor } from './idb-query-open-cursor.interface';
 export type { IDBQueryPut } from './idb-query-put.interface';
