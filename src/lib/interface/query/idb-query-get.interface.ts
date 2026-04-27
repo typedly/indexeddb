@@ -8,6 +8,12 @@ import { IDBRequestEvents } from "../idb-request-events.interface";
  * @template {StoreNames} StoreName 
  * @template {object} Schema 
  * @template {keyof Schema} [StoreNames=keyof Schema] 
+ * @example
+ * const getQuery: IDBQueryGet<'periodic', { periodic: { id: number, name: string } }, 'periodic'> = {
+ *   query: 1,
+ *   onsuccess: (ev) => console.log('Get operation successful.', ev),
+ *   onerror: (ev) => console.error('Get operation failed.', ev),
+ * };
  */
 export interface IDBQueryGet<
   StoreName extends StoreNames,
@@ -16,3 +22,11 @@ export interface IDBQueryGet<
 > extends IDBRequestEvents<Schema[StoreName]> {
   query: IDBValidKey | IDBKeyRange;
 }
+
+/*
+const getQuery: IDBQueryGet<'periodic', { periodic: { id: number, name: string } }, 'periodic'> = {
+  query: 1,
+  onsuccess: (ev) => console.log('Get operation successful.', ev),
+  onerror: (ev) => console.error('Get operation failed.', ev),
+};
+*/
