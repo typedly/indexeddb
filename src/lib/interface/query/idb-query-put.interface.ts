@@ -1,5 +1,5 @@
 // Type.
-import { IDBSchema } from "../../type";
+import { IDBSchema, InsertValue } from "../../type";
 // Interface.
 import { IDBRequestEvents } from "../idb-request-events.interface";
 /**
@@ -23,7 +23,7 @@ export interface IDBQueryPut<
   StoreName extends StoreNames,
   StoreNames extends keyof Schema = keyof Schema
 > extends IDBRequestEvents<IDBValidKey> {
-  value: Schema[StoreName];
+  value: InsertValue<Schema[StoreName]>;
   key?: IDBValidKey;
 }
 
