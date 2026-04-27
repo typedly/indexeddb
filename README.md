@@ -55,8 +55,8 @@ A **TypeScript** type definitions package for [IndexedDB](https://developer.mozi
     - [`IDBQueryPut`](#idbqueryput)
     - [`IDBRangeBound`](#idbrangebound)
   - Type
-    - [`IDBQueryMethod_Store`](#idbquerymethod_store)
-    - [`IDBQueryStore_Method`](#idbquerystore_method)
+    - [`IDBQueryMethodToStore`](#idbquerymethodtostore)
+    - [`IDBQueryStoreToMethod`](#idbquerystoretomethod)
     - [`IDBRequestHandler`](#idbconfig)
     - [`IDBSchema`](#idbconfig)
     - [`IDBStoresFromSchema`](#idbconfig)
@@ -110,12 +110,15 @@ import type {
   IDBQueryPut,
   IDBRangeBound,
   // Type.
-  IDBQueryMethod_Store,
-  IDBQueryStore_Method,
+  IDBQueryMethodToStore,
+  IDBQueryStoreToMethod,
   IDBRequestHandler,
   IDBSchema,
   IDBStoresFromSchema,
   IDBStoresParameters,
+  // Utility Types.
+  IDBKeyPath,
+  OneOrMany,
 } from '@typedly/indexeddb';
 ```
 
@@ -133,12 +136,41 @@ const config: IDBConfig<'MyDatabase', 'users' | 'orders', 1> = {
     users: {
       keyPath: 'id',
       autoIncrement: true,
+      index: [{
+        keyPath: 'id',
+        name: 'idIndex',
+        options: { unique: true }
+      }]
     },
     orders: {
       keyPath: 'orderId',
       autoIncrement: true,
     },
   },
+}
+
+const indexeddb = indexedDB.open(
+  'test-db', // name
+  1 // version
+);
+
+indexeddb.onupgradeneeded = (event) => {
+  const db = (event.target as IDBOpenDBRequest).result;
+
+  if (!config.stores) return;
+
+  for (const [storeName, params] of Object.entries(config.stores)) {
+    if (db.objectStoreNames.contains(storeName)) continue;
+
+    const store = db.createObjectStore(storeName, {
+      keyPath: params.keyPath, // config.stores[storeName].keyPath
+      autoIncrement: params.autoIncrement, // config.stores[storeName].autoIncrement
+    });
+
+    params.index?.forEach((idx) => {
+      store.createIndex(idx.name, idx.keyPath, idx.options); // config.stores[storeName].index
+    });
+  }
 };
 ```
 
@@ -485,16 +517,43 @@ import { IDBRangeBound } from '@typedly/indexeddb';
 
 ### Type
 
-### `IDBQueryMethod_Store`
+### `IDBQueryMethodToStore`
 
 ```typescript
-import { IDBQueryMethod_Store } from '@typedly/indexeddb';
+import { IDBQueryMethodToStore } from '@typedly/indexeddb';
+
+const queryMethodToStore: IDBQueryMethodToStore<{periodic: {id: number, name: string}}> = {
+  get: {
+    periodic: {
+      query: 1,
+      onsuccess: (ev) => console.log('Get operation successful.', ev),
+      onerror: (ev) => console.error('Get operation failed.', ev),
+    }
+  },
+  put: {
+    periodic: {
+      value: { id: 1, name: 'Hydrogen' },
+      onsuccess: (ev) => console.log('Put operation successful.', ev),
+      onerror: (ev) => console.error('Put operation failed.', ev),
+    }
+  }
+};
 ```
 
-### `IDBQueryStore_Method`
+### `IDBQueryStoreToMethod`
 
 ```typescript
-import { IDBQueryStore_Method } from '@typedly/indexeddb';
+import { IDBQueryStoreToMethod } from '@typedly/indexeddb';
+
+const queryStoreToMethod: IDBQueryStoreToMethod<{ users: { id: number } }, 'users'> = {
+  users: {
+    add: { value: { id: 1 } },
+    get: { query: 1 },
+    clear: {},
+    index: { name: 'id' },
+    openCursor: { query: IDBKeyRange.lowerBound(1), direction: 'next' }
+  }
+};
 ```
 
 ### `IDBRequestHandler`
