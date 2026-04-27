@@ -72,7 +72,7 @@ A **TypeScript** type definitions package for [IndexedDB](https://developer.mozi
 
 ## Related packages
 
-- **[@typedly/indexeddb](https://github.com/typescript-package/indexeddb)**: A **TypeScript** wrapper for [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) client-side storage.
+- **[@typescript-package/indexeddb](https://github.com/typescript-package/indexeddb)**: A **TypeScript** wrapper for [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) client-side storage.
 
 ## Installation
 
@@ -125,54 +125,148 @@ import type {
 
 ```typescript
 import { IDBConfig } from '@typedly/indexeddb';
+
+const config: IDBConfig<'MyDatabase', 'users' | 'orders', 1> = {
+  name: 'MyDatabase',
+  version: 1,
+  stores: {
+    users: {
+      keyPath: 'id',
+      autoIncrement: true,
+    },
+    orders: {
+      keyPath: 'orderId',
+      autoIncrement: true,
+    },
+  },
+};
 ```
 
 ### `IDBOpenDBRequestEvents`
 
 ```typescript
 import { IDBOpenDBRequestEvents } from '@typedly/indexeddb';
+
+const openDBRequest = indexedDB.open('MyDatabase', 1);
+const events: IDBOpenDBRequestEvents = {
+  onerror: (event) => {
+    console.error('Error opening database:', event);
+  },
+  onsuccess: (event) => {
+    console.log('Database opened successfully:', event);
+  },
+  onupgradeneeded: (event) => {
+    console.log('Database upgrade needed:', event);
+    const db = openDBRequest.result;
+    if (!db.objectStoreNames.contains('users')) {
+      db.createObjectStore('users', { keyPath: 'id', autoIncrement: true });
+    }
+  },
+  onblocked: (event) => {
+    console.warn('Database open request is blocked:', event);
+  },
+};
+Object.assign(openDBRequest, events);
 ```
 
 ### `IDBOpenStoreResult`
 
 ```typescript
 import { IDBOpenStoreResult } from '@typedly/indexeddb';
+
+const openStoreResult: IDBOpenStoreResult = {
+  done: new Promise((resolve) => resolve()),
+  store: {} as IDBObjectStore,
+  transaction: {} as IDBTransaction,
+};
 ```
 
 ### `IDBOpenStoresResult`
 
 ```typescript
 import { IDBOpenStoresResult } from '@typedly/indexeddb';
+
+const openStoresResult: IDBOpenStoresResult<'users' | 'orders'> = {
+  done: new Promise((resolve) => resolve()),
+  stores: {
+    users: {} as IDBObjectStore,
+    orders: {} as IDBObjectStore,
+  },
+  transaction: {} as IDBTransaction,
+};
 ```
 
 ### `IDBOpenTransactionResult`
 
 ```typescript
 import { IDBOpenTransactionResult } from '@typedly/indexeddb';
+
+const openTransactionResult: IDBOpenTransactionResult = {
+  done: new Promise((resolve) => resolve()),
+  transaction: {} as IDBTransaction,
+};
 ```
 
 ### `IDBQueryTransactionOptions`
 
 ```typescript
 import { IDBQueryTransactionOptions } from '@typedly/indexeddb';
+
+const transactionOptions: IDBQueryTransactionOptions = {
+  mode: 'readwrite',
+  ondone: (done) => console.log('Transaction completed:', done),
+  ontransaction: (transaction) => console.log('Transaction event:', transaction),
+  options: { durability: 'relaxed' },
+};
 ```
 
 ### `IDBRequestEvents`
 
 ```typescript
 import { IDBRequestEvents } from '@typedly/indexeddb';
+
+const requestEvents: IDBRequestEvents<string> = {
+  onsuccess: (result) => console.log('Request succeeded with result:', result),
+  onerror: (error) => console.error('Request failed with error:', error),
+};
 ```
 
 ### `IDBStoreParameters`
 
 ```typescript
 import { IDBStoreParameters } from '@typedly/indexeddb';
+
+const storeParameters: IDBStoreParameters = {
+  keyPath: 'id',
+  autoIncrement: true,
+  index: [
+    {
+      name: 'nameIndex',
+      keyPath: 'name',
+      options: { unique: false },
+    },
+    {
+      name: 'emailIndex',
+      keyPath: 'email',
+      options: { unique: true },
+    },
+  ],
+};
 ```
 
 ### `IDBStoreQuery`
 
 ```typescript
 import { IDBStoreQuery } from '@typedly/indexeddb';
+
+const storeQuery: IDBStoreQuery<MySchema, 'users' | 'orders'> = {
+  store: (store) => {
+    // Perform operations on the store
+  },
+  method: (method) => {
+    // Perform operations using the method
+  },
+};
 ```
 
 ### `IDBTransactionEvents`
@@ -185,72 +279,202 @@ import { IDBTransactionEvents } from '@typedly/indexeddb';
 
 ```typescript
 import { IDBQueryAdd } from '@typedly/indexeddb';
+
+const addQuery: IDBQueryAdd<{ periodic: { id: number, name: string } }, 'periodic'> = {
+  value: { id: 1, name: 'Hydrogen' },
+  key: 1,
+  onsuccess: (ev) => console.log('Add operation successful.', ev),
+  onerror: (ev) => console.error('Add operation failed.', ev),
+};
 ```
 
 ### `IDBQueryClear`
 
 ```typescript
 import { IDBQueryClear } from '@typedly/indexeddb';
+
+const clearQuery: IDBQueryClear = {
+  onsuccess: (ev) => console.log('Clear operation successful.', ev),
+  onerror: (ev) => console.error('Clear operation failed.', ev),
+};
 ```
 
 ### `IDBQueryCount`
 
 ```typescript
 import { IDBQueryCount } from '@typedly/indexeddb';
+
+const countQuery: IDBQueryCount = {
+  query: IDBKeyRange.bound(1, 10),
+  onsuccess: (ev) => console.log('Count operation successful.', ev),
+  onerror: (ev) => console.error('Count operation failed.', ev),
+};
 ```
 
 ### `IDBQueryDelete`
 
 ```typescript
 import { IDBQueryDelete } from '@typedly/indexeddb';
+
+const deleteQuery: IDBQueryDelete = {
+  query: IDBKeyRange.bound(1, 10),
+  onsuccess: (ev) => console.log('Delete operation successful.', ev),
+  onerror: (ev) => console.error('Delete operation failed.', ev),
+};
 ```
 
 ### `IDBQueryGet`
 
 ```typescript
 import { IDBQueryGet } from '@typedly/indexeddb';
+
+const getQuery: IDBQueryGet<'periodic', { periodic: { id: number, name: string } }, 'periodic'> = {
+  query: 1,
+  onsuccess: (ev) => console.log('Get operation successful.', ev),
+  onerror: (ev) => console.error('Get operation failed.', ev),
+};
 ```
 
 ### `IDBQueryGetAll`
 
 ```typescript
 import { IDBQueryGetAll } from '@typedly/indexeddb';
+
+const getAllQuery: IDBQueryGetAll<'periodic', { periodic: { id: number, name: string } }, 'periodic'> = {
+  query: IDBKeyRange.bound(1, 10),
+  count: 5,
+  onsuccess: (ev) => console.log('Get All operation successful.', ev),
+  onerror: (ev) => console.error('Get All operation failed.', ev),
+};
 ```
 
 ### `IDBQueryGetAllKeys`
 
 ```typescript
 import { IDBQueryGetAllKeys } from '@typedly/indexeddb';
+
+const getAllKeysQuery: IDBQueryGetAllKeys = {
+  query: IDBKeyRange.bound(1, 10),
+  count: 5,
+  onsuccess: (ev) => console.log('Get All Keys operation successful.', ev),
+  onerror: (ev) => console.error('Get All Keys operation failed.', ev),
+};
 ```
 
 ### `IDBQueryGetKey`
 
 ```typescript
 import { IDBQueryGetKey } from '@typedly/indexeddb';
+
+const getKeyQuery: IDBQueryGetKey = {
+  query: IDBKeyRange.bound(1, 10),
+  onsuccess: (ev) => console.log('Get Key operation successful.', ev),
+  onerror: (ev) => console.error('Get Key operation failed.', ev),
+};
 ```
 
 ### `IDBQueryIndex`
 
 ```typescript
 import { IDBQueryIndex } from '@typedly/indexeddb';
+
+const indexQuery: IDBQueryIndex = {
+  name: 'indexName',
+  onsuccess: (ev) => console.log('Index query operation successful.', ev),
+  onerror: (ev) => console.error('Index query operation failed.', ev),
+};
 ```
 
 ### `IDBQueryMethod`
 
 ```typescript
 import { IDBQueryMethod } from '@typedly/indexeddb';
+
+const queryMethod: IDBQueryMethod<{ periodic: { id: number, name: string } }, 'periodic', 'periodic'> = {
+  add: {
+    storeName: 'periodic',
+    value: { id: 1, name: 'Hydrogen' },
+    key: 1,
+    onsuccess: (ev) => console.log('Add operation successful.', ev),
+    onerror: (ev) => console.error('Add operation failed.', ev),
+  },
+  clear: {
+    storeName: 'periodic',
+    onsuccess: (ev) => console.log('Clear operation successful.', ev),
+    onerror: (ev) => console.error('Clear operation failed.', ev),
+  },
+  count: {
+    storeName: 'periodic',
+    query: IDBKeyRange.bound(1, 10),
+    onsuccess: (ev) => console.log('Count operation successful.', ev),
+    onerror: (ev) => console.error('Count operation failed.', ev),
+  },
+  delete: {
+    storeName: 'periodic',
+    query: 1,
+    onsuccess: (ev) => console.log('Delete operation successful.', ev),
+    onerror: (ev) => console.error('Delete operation failed.', ev),
+  },
+  get: {
+    storeName: 'periodic',
+    query: 1,
+    onsuccess: (ev) => console.log('Get operation successful.', ev),
+    onerror: (ev) => console.error('Get operation failed.', ev),
+  },
+  getAll: {
+    storeName: 'periodic',
+    query: IDBKeyRange.bound(1, 10),
+    count: 5,
+    onsuccess: (ev) => console.log('Get All operation successful.', ev),
+    onerror: (ev) => console.error('Get All operation failed.', ev),
+  },
+  index: {
+    storeName: 'periodic',
+    name: 'indexName',
+    onsuccess: (ev) => console.log('Index operation successful.', ev),
+    onerror: (ev) => console.error('Index operation failed.', ev),
+  },
+  openCursor: {
+    storeName: 'periodic',
+    query: IDBKeyRange.bound(1, 10),
+    direction: 'next',
+    onsuccess: (ev) => console.log('Open Cursor operation successful.', ev),
+    onerror: (ev) => console.error('Open Cursor operation failed.', ev),
+  },
+  put: {
+    storeName: 'periodic',
+    value: { id: 1, name: 'Hydrogen' },
+    key: 1,
+    onsuccess: (ev) => console.log('Put operation successful.', ev),
+    onerror: (ev) => console.error('Put operation failed.', ev),
+  },
+};
 ```
 
 ### `IDBQueryOpenCursor`
 
 ```typescript
 import { IDBQueryOpenCursor } from '@typedly/indexeddb';
+
+const openCursorQuery: IDBQueryOpenCursor = {
+  query: IDBKeyRange.bound(1, 10),
+  direction: 'next',
+  onsuccess: (ev) => console.log('Open Cursor operation successful.', ev),
+  onerror: (ev) => console.error('Open Cursor operation failed.', ev),
+};
 ```
 
 ### `IDBQueryPut`
 
 ```typescript
 import { IDBQueryPut } from '@typedly/indexeddb';
+
+const putQuery: IDBQueryPut<{ periodic: { id: number, name: string } }, 'periodic'> = {
+  value: { id: 1, name: 'Hydrogen' },
+  key: 1,
+  onsuccess: (ev) => console.log('Put operation successful.', ev),
+  onerror: (ev) => console.error('Put operation failed.', ev),
+};
 ```
 
 ### `IDBRangeBound`
