@@ -1,5 +1,5 @@
 // Type.
-import { IDBSchema, IDBQueryStore_Method, IDBQueryMethod_Store } from "../type";
+import { IDBQueryMethodToStore, IDBQueryStoreToMethod, IDBSchema } from "../type";
 /**
  * @description Defines the shape of the query object that can be passed to the IDBQuery constructor or its methods.
  * @export
@@ -20,8 +20,8 @@ export interface IDBStoreQuery<
   Schema extends IDBSchema,
   StoreNames extends keyof Schema & string
 > {
-  store?: IDBQueryStore_Method<Schema, StoreNames, StoreNames>,
-  method?: IDBQueryMethod_Store<Schema, StoreNames>
+  store?: IDBQueryStoreToMethod<Schema, StoreNames, StoreNames>,
+  method?: IDBQueryMethodToStore<Schema, StoreNames>
 }
 
 /*
