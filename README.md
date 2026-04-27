@@ -72,7 +72,7 @@ A **TypeScript** type definitions package for [IndexedDB](https://developer.mozi
 
 ## Related packages
 
-- **[@typedly/data](https://github.com/typescript-package/indexeddb)**: A lightweight TypeScript library for data collection.
+- **[@typedly/indexeddb](https://github.com/typescript-package/indexeddb)**: A **TypeScript** wrapper for [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) client-side storage.
 
 ## Installation
 
