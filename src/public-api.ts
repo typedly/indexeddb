@@ -37,5 +37,6 @@ export type {
   IDBStoresParameters,
   // Utility Types.
   IDBKeyPath,
+  InsertValue,
   OneOrMany,
 } from './lib';
