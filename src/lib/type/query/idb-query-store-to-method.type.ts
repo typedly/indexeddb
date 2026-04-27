@@ -11,18 +11,16 @@ import { IDBQueryIndex } from "../../interface/query/idb-query-index.interface";
 import { IDBQueryOpenCursor } from "../../interface/query/idb-query-open-cursor.interface";
 import { IDBQueryPut } from "../../interface/query/idb-query-put.interface";
 // Type.
-import { IDBSchema } from "../idb-schema.type";
-import { OneOrMany } from "../one-or-many.type";
+import { IDBSchema, OneOrMany } from "..";
 /**
  * @description Query by Store to Method Type.
  * Variant store -> method
  * @export
- * @typedef {IDBQueryStore_Method}
  * @template {IDBSchema} Schema 
  * @template {StoreNames} StoreName 
  * @template {keyof Schema & string} [StoreNames=keyof Schema & string] 
  */
-export type IDBQueryStore_Method<
+export type IDBQueryStoreToMethod<
   Schema extends IDBSchema,
   StoreName extends StoreNames,
   StoreNames extends keyof Schema & string = keyof Schema & string,
@@ -45,8 +43,8 @@ export type IDBQueryStore_Method<
   }>
 }>;
 
-// const a: IDBQueryStore_Method<{ store1: { id: number } }, 'store1'> = {
-//   store1: {
+// const queryStoreToMethod: IDBQueryStoreToMethod<{ users: { id: number } }, 'users'> = {
+//   users: {
 //     add: { value: { id: 1 } },
 //     get: { query: 1 },
 //     clear: {},

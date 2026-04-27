@@ -15,11 +15,10 @@ import { IDBSchema } from "../idb-schema.type";
  * @description  Query Method Store.
  * Variant Method -> StoreName -> QueryMethod
  * @export
- * @typedef {IDBQueryMethod_Store}
  * @template {IDBSchema} Schema 
  * @template {keyof Schema & string} [StoreNames=keyof Schema & string] 
  */
-export type IDBQueryMethod_Store<
+export type IDBQueryMethodToStore<
   Schema extends IDBSchema,
   StoreNames extends keyof Schema & string = keyof Schema & string,
 > = Partial<{
@@ -44,10 +43,7 @@ export type IDBQueryMethod_Store<
 }>;
 
 // Examples.
-// const test: IndexedDBQueryInput<{periodic: {id: number, name: string}}> 
-// test.get?.periodic
-
-// const test: IDBQueryMethod_Store<{periodic: {id: number, name: string}}> = {
+// const queryMethodToStore: IDBQueryMethodToStore<{periodic: {id: number, name: string}}> = {
 //   get: {
 //     periodic: {
 //       query: 1,
@@ -64,4 +60,4 @@ export type IDBQueryMethod_Store<
 //   }
 // };
 
-// const keyOf: keyof IDBQueryMethod_Store<{periodic: {id: number, name: string}}> = 'get';
+// const keyOf: keyof IDBQueryMethodToStore<{periodic: {id: number, name: string}}> = 'get';
