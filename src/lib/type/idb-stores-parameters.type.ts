@@ -1,5 +1,5 @@
 // Interface.
-import { IDBStoreParameters } from "../interface";
+import type { IDBStoreParameters } from "../interface";
 /**
  * @description Defines the type for IndexedDB stores parameters.
  * @export
