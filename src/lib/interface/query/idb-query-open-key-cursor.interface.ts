@@ -13,3 +13,12 @@ export interface IDBQueryOpenKeyCursor extends IDBRequestEvents<IDBCursor | null
   key?: IDBValidKey;
   range?: IDBRangeBound;
 }
+
+/*
+const openKeyCursorQuery: IDBQueryOpenKeyCursor = {
+  query: IDBKeyRange.bound(1, 10),
+  direction: 'next',
+  onsuccess: (ev) => console.log('Open Key Cursor operation successful.', ev),
+  onerror: (ev) => console.error('Open Key Cursor operation failed.', ev),
+};
+*/
