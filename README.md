@@ -52,6 +52,7 @@ A **TypeScript** type definitions package for [IndexedDB](https://developer.mozi
     - [`IDBQueryIndex`](#idbqueryindex)
     - [`IDBQueryMethod`](#idbquerymethod)
     - [`IDBQueryOpenCursor`](#idbqueryopencursor)
+    - [`IDBQueryOpenKeyCursor`](#idbqueryopenkeycursor)
     - [`IDBQueryPut`](#idbqueryput)
     - [`IDBRangeBound`](#idbrangebound)
   - Type
@@ -496,6 +497,19 @@ const openCursorQuery: IDBQueryOpenCursor = {
   direction: 'next',
   onsuccess: (ev) => console.log('Open Cursor operation successful.', ev),
   onerror: (ev) => console.error('Open Cursor operation failed.', ev),
+};
+```
+
+### `IDBQueryOpenKeyCursor`
+
+```typescript
+import { IDBQueryOpenKeyCursor } from '@typedly/indexeddb';
+
+const openKeyCursorQuery: IDBQueryOpenKeyCursor = {
+  query: IDBKeyRange.bound(1, 10),
+  direction: 'next',
+  onsuccess: (ev) => console.log('Open Key Cursor operation successful.', ev),
+  onerror: (ev) => console.error('Open Key Cursor operation failed.', ev),
 };
 ```
 

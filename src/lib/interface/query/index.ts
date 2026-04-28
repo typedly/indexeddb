@@ -14,6 +14,8 @@ export type { IDBQueryMethod } from './idb-query-method.interface';
 export type { IDBQueryMethodToStore } from '../../type/query/idb-query-method-to-store.type';
 
 export type { IDBQueryOpenCursor } from './idb-query-open-cursor.interface';
+export type { IDBQueryOpenKeyCursor } from './idb-query-open-key-cursor.interface';
+
 export type { IDBQueryPut } from './idb-query-put.interface';
 
 export type { IDBRangeBound } from './idb-range-bound.interface';
