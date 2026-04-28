@@ -1,12 +1,15 @@
 {
   "name": "@typedly/indexeddb",
-  "version": "1.1.0",
-  "author": "wwwdev.io <dev@wwwdev.io>",
+  "version": "2.0.0",
+  "author": "wwwdev.io <sciborrudnicki@wwwdev.io>",
   "description": "A TypeScript type definitions package for IndexedDB.",
   "license": "MIT",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
+  },
+  "peerDependencies": {
+    "@typedly/utility": "^1.1.0"
   },
   "scripts": {
     "prepublishOnly": "npm install rimraf && npm run pkg && npm run clean",

@@ -38,5 +38,4 @@ export type {
   // Utility Types.
   IDBKeyPath,
   InsertValue,
-  OneOrMany,
 } from './lib';
