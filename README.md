@@ -64,7 +64,6 @@ A **TypeScript** type definitions package for [IndexedDB](https://developer.mozi
   - Utility
     - [`IDBKeyPath`](#idbkeypath)
     - [`InsertValue`](#insertvalue)
-    - [`OneOrMany`](#oneormany)
 - [Contributing](#contributing)
 - [Support](#support)
 - [Code of Conduct](#code-of-conduct)
@@ -122,8 +121,7 @@ import type {
   IDBStoresParameters,
   // Utility Types.
   IDBKeyPath,
-  InsertValue,
-  OneOrMany,
+  InsertValue
 } from '@typedly/indexeddb';
 ```
 
@@ -597,12 +595,6 @@ import { IDBKeyPath } from '@typedly/indexeddb';
 
 ```typescript
 import { InsertValue } from '@typedly/indexeddb';
-```
-
-### `OneOrMany`
-
-```typescript
-import { OneOrMany } from '@typedly/indexeddb';
 ```
 
 ## Contributing
