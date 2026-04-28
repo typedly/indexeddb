@@ -1,4 +1,4 @@
-// Type.
+// Interface & Type.
 import type { IDBQueryAdd } from "../../interface/query/idb-query-add.interface";
 import type { IDBQueryClear } from "../../interface/query/idb-query-clear.interface";
 import type { IDBQueryCount } from "../../interface/query/idb-query-count.interface";
@@ -9,8 +9,10 @@ import type { IDBQueryGetAllKeys } from "../../interface/query/idb-query-get-all
 import type { IDBQueryGetKey } from "../../interface/query/idb-query-get-key.interface";
 import type { IDBQueryIndex } from "../../interface/query/idb-query-index.interface";
 import type { IDBQueryOpenCursor } from "../../interface/query/idb-query-open-cursor.interface";
+import type { IDBQueryOpenKeyCursor } from "../../interface";
 import type { IDBQueryPut } from "../../interface/query/idb-query-put.interface";
 import type { IDBSchema } from "../idb-schema.type";
+import type { OneOrMany } from "@typedly/utility";
 /**
  * @description  Query Method Store.
  * Variant Method -> StoreName -> QueryMethod
@@ -22,24 +24,24 @@ export type IDBQueryMethodToStore<
   Schema extends IDBSchema,
   StoreNames extends keyof Schema & string = keyof Schema & string,
 > = Partial<{
-  add: Partial<{ [StoreName in StoreNames]: IDBQueryAdd<Schema, StoreName, StoreNames> }>,
+  add: Partial<{ [StoreName in StoreNames]: OneOrMany<IDBQueryAdd<Schema, StoreName, StoreNames>> }>,
   clear: Partial<{ [StoreName in StoreNames]: IDBQueryClear }>,
   count: Partial<{ [StoreName in StoreNames]: IDBQueryCount }>,
-  delete: Partial<{ [StoreName in StoreNames]: IDBQueryDelete }>,
+  delete: Partial<{ [StoreName in StoreNames]: OneOrMany<IDBQueryDelete> }>,
 
   // Get.
-  get: Partial<{ [StoreName in StoreNames]: IDBQueryGet<StoreName, Schema, StoreNames> }>,
-  getAll: Partial<{ [StoreName in StoreNames]: IDBQueryGetAll<StoreName, Schema, StoreNames> }>,
-  getAllKeys?: Partial<{ [StoreName in StoreNames]: IDBQueryGetAllKeys }>,
-  getKey?: Partial<{ [StoreName in StoreNames]: IDBQueryGetKey }>,
+  get: Partial<{ [StoreName in StoreNames]: OneOrMany<IDBQueryGet<StoreName, Schema, StoreNames>> }>,
+  getAll: Partial<{ [StoreName in StoreNames]: OneOrMany<IDBQueryGetAll<StoreName, Schema, StoreNames>> }>,
+  getAllKeys?: Partial<{ [StoreName in StoreNames]: OneOrMany<IDBQueryGetAllKeys> }>,
+  getKey?: Partial<{ [StoreName in StoreNames]: OneOrMany<IDBQueryGetKey> }>,
 
-  index: Partial<{ [StoreName in StoreNames]: IDBQueryIndex }>,
+  index: Partial<{ [StoreName in StoreNames]: OneOrMany<IDBQueryIndex> }>,
 
   // Cursor.
-  openCursor: Partial<{ [StoreName in StoreNames]: IDBQueryOpenCursor }>,
-  // openKeyCursor?: Partial<{ [StoreName in StoreNames]: IDBQueryOpenKeyCursor<StoreName> }>,
+  openCursor: Partial<{ [StoreName in StoreNames]: OneOrMany<IDBQueryOpenCursor> }>,
+  openKeyCursor?: Partial<{ [StoreName in StoreNames]: OneOrMany<IDBQueryOpenKeyCursor> }>,
 
-  put: Partial<{ [StoreName in StoreNames]: IDBQueryPut<Schema, StoreName, StoreNames> }>,
+  put: Partial<{ [StoreName in StoreNames]: OneOrMany<IDBQueryPut<Schema, StoreName, StoreNames>> }>,
 }>;
 
 // Examples.
