@@ -26,6 +26,7 @@ export type {
   IDBQueryIndex,
   IDBQueryMethod,
   IDBQueryOpenCursor,
+  IDBQueryOpenKeyCursor,
   IDBQueryPut,
   IDBRangeBound,
   // Type.
