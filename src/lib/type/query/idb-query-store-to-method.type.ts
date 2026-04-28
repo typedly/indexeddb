@@ -9,6 +9,7 @@ import type { IDBQueryGetAllKeys } from "../../interface/query/idb-query-get-all
 import type { IDBQueryGetKey } from "../../interface/query/idb-query-get-key.interface";
 import type { IDBQueryIndex } from "../../interface/query/idb-query-index.interface";
 import type { IDBQueryOpenCursor } from "../../interface/query/idb-query-open-cursor.interface";
+import type { IDBQueryOpenKeyCursor } from "../../interface/query/idb-query-open-key-cursor.interface";
 import type { IDBQueryPut } from "../../interface/query/idb-query-put.interface";
 // Type.
 import type { IDBSchema } from "../idb-schema.type";
@@ -41,6 +42,7 @@ export type IDBQueryStoreToMethod<
 
     index: OneOrMany<IDBQueryIndex>;
     openCursor: OneOrMany<IDBQueryOpenCursor>;
+    openKeyCursor: OneOrMany<IDBQueryOpenKeyCursor>;
   }>
 }>;
 

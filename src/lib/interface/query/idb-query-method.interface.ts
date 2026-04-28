@@ -9,6 +9,7 @@ import { IDBQueryGet } from "./idb-query-get.interface";
 import { IDBQueryGetAll } from "./idb-query-get-all.interface";
 import { IDBQueryIndex } from "./idb-query-index.interface";
 import { IDBQueryOpenCursor } from "./idb-query-open-cursor.interface";
+import { IDBQueryOpenKeyCursor } from "./idb-query-open-key-cursor.interface";
 import { IDBQueryPut } from "./idb-query-put.interface";
 /**
  * @description Query method input.
@@ -91,6 +92,7 @@ export interface IDBQueryMethod<
   getAll: {storeName: StoreName} & IDBQueryGetAll<StoreName, Schema, StoreNames>,
   index: {storeName: StoreName} & IDBQueryIndex,
   openCursor: { storeName: StoreName } & IDBQueryOpenCursor,
+  openKeyCursor: { storeName: StoreName } & IDBQueryOpenKeyCursor,
   put: {storeName: StoreName} & IDBQueryPut<Schema, StoreName, StoreNames>,
 };
 
