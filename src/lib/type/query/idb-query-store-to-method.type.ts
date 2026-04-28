@@ -1,17 +1,18 @@
 // Interface.
-import { IDBQueryAdd } from "../../interface/query/idb-query-add.interface";
-import { IDBQueryClear } from "../../interface/query/idb-query-clear.interface";
-import { IDBQueryCount } from "../../interface/query/idb-query-count.interface";
-import { IDBQueryDelete } from "../../interface/query/idb-query-delete.interface";
-import { IDBQueryGet } from "../../interface/query/idb-query-get.interface";
-import { IDBQueryGetAll } from "../../interface/query/idb-query-get-all.interface";
-import { IDBQueryGetAllKeys } from "../../interface/query/idb-query-get-all-keys.interface";
-import { IDBQueryGetKey } from "../../interface/query/idb-query-get-key.interface";
-import { IDBQueryIndex } from "../../interface/query/idb-query-index.interface";
-import { IDBQueryOpenCursor } from "../../interface/query/idb-query-open-cursor.interface";
-import { IDBQueryPut } from "../../interface/query/idb-query-put.interface";
+import type { IDBQueryAdd } from "../../interface/query/idb-query-add.interface";
+import type { IDBQueryClear } from "../../interface/query/idb-query-clear.interface";
+import type { IDBQueryCount } from "../../interface/query/idb-query-count.interface";
+import type { IDBQueryDelete } from "../../interface/query/idb-query-delete.interface";
+import type { IDBQueryGet } from "../../interface/query/idb-query-get.interface";
+import type { IDBQueryGetAll } from "../../interface/query/idb-query-get-all.interface";
+import type { IDBQueryGetAllKeys } from "../../interface/query/idb-query-get-all-keys.interface";
+import type { IDBQueryGetKey } from "../../interface/query/idb-query-get-key.interface";
+import type { IDBQueryIndex } from "../../interface/query/idb-query-index.interface";
+import type { IDBQueryOpenCursor } from "../../interface/query/idb-query-open-cursor.interface";
+import type { IDBQueryPut } from "../../interface/query/idb-query-put.interface";
 // Type.
-import { IDBSchema, OneOrMany } from "..";
+import type { IDBSchema } from "../idb-schema.type";
+import type { OneOrMany } from "@typedly/utility";
 /**
  * @description Query by Store to Method Type.
  * Variant store -> method
