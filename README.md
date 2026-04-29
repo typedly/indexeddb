@@ -62,6 +62,10 @@ A **TypeScript** type definitions package for [IndexedDB](https://developer.mozi
     - [`IDBSchema`](#idbconfig)
     - [`IDBStoresFromSchema`](#idbconfig)
     - [`IDBStoresParameters`](#idbconfig)
+  - Settings
+    - [`IDBConnectionSettings`](#idbconnectionsettings)
+    - [`IDBSettings`](#idbsettings)
+    - [`IDBSettingsWithConnection`](#idbsettingswithconnection)
   - Utility
     - [`IDBKeyPath`](#idbkeypath)
     - [`InsertValue`](#insertvalue)
@@ -120,6 +124,10 @@ import type {
   IDBSchema,
   IDBStoresFromSchema,
   IDBStoresParameters,
+  // Settings.
+  IDBConnectionSettings,
+  IDBSettings,
+  IDBSettingsWithConnection,
   // Utility Types.
   IDBKeyPath,
   InsertValue
@@ -589,12 +597,145 @@ import { IDBSchema } from '@typedly/indexeddb';
 
 ```typescript
 import { IDBStoresFromSchema } from '@typedly/indexeddb';
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  tags: string[];
+  history: number[];
+  profile: {
+    bio: string;
+    age?: number;
+  };
+  friends: { id: number; name: string }[];
+};
+
+type Post = {
+  id: number;
+  title: string;
+};
+
+type Schema = {
+  users: User;
+  posts: Post;
+};
+
+export class TestClass1<Schema extends IDBSchema> {
+  constructor(private stores: IDBStoresFromSchema<Schema>) {}
+
+  public add<Name extends keyof Schema>(store: Name, value: Schema[Name]) {
+    // value is fully type-checked against your TypeScript types!
+  }
+}
+
+const test = new TestClass1<Schema>({
+  users: { keyPath: 'id', autoIncrement: true },
+  posts: { keyPath: 'id', autoIncrement: true },
+});
 ```
 
 ### `IDBStoresParameters`
 
 ```typescript
 import { IDBStoresParameters } from '@typedly/indexeddb';
+```
+
+### Settings
+
+### `IDBConnectionSettings`
+
+```typescript
+import { IDBConnectionSettings } from '@typedly/indexeddb';
+
+const connectionSettings: IDBConnectionSettings<'MyDatabase', 1> = {
+  name: 'MyDatabase',
+  version: 1,
+  events: {
+    onerror: (event) => {
+      console.error('Error opening database:', event);
+    },
+    onsuccess: (event) => {
+      console.log('Database opened successfully:', event);
+    },
+    onupgradeneeded: (event) => {
+      console.log('Database upgrade needed:', event);
+    },
+    onblocked: (event) => {
+      console.warn('Database open request blocked:', event);
+    }
+  }
+};
+```
+
+### `IDBSettings`
+
+```typescript
+import { IDBSettings } from '@typedly/indexeddb';
+
+const settings: IDBSettings<'MyDatabase', 'MyStore', 1> = {
+  name: 'MyDatabase',
+  version: 1,
+  parameters: {
+    MyStore: {
+      keyPath: 'id',
+      autoIncrement: true,
+      index: [
+        { name: 'nameIndex', keyPath: 'name', options: { unique: false } }
+      ]
+    }
+  },
+  connectionEvents: {
+    onerror: (event) => {
+      console.error('Error opening database:', event);
+    },
+    onsuccess: (event) => {
+      console.log('Database opened successfully:', event);
+    },
+    onupgradeneeded: (event) => {
+      console.log('Database upgrade needed:', event);
+    },
+    onblocked: (event) => {
+      console.warn('Database open request blocked:', event);
+    }
+  }
+};
+```
+
+### `IDBSettingsWithConnection`
+
+```typescript
+import { IDBSettingsWithConnection } from '@typedly/indexeddb';
+
+const settingsWithConnection: IDBSettingsWithConnection<'MyDatabase', 'MyStore', 1> = {
+  parameters: {
+    MyStore: {
+      keyPath: 'id',
+      autoIncrement: true,
+      index: [
+        { name: 'nameIndex', keyPath: 'name', options: { unique: false } }
+      ]
+    }
+  },
+  connection: {
+    name: 'MyDatabase',
+    version: 1,
+    events: {
+      onerror: (event) => {
+        console.error('Error opening database:', event);
+      },
+      onsuccess: (event) => {
+        console.log('Database opened successfully:', event);
+      },
+      onupgradeneeded: (event) => {
+        console.log('Database upgrade needed:', event);
+      },
+      onblocked: (event) => {
+        console.warn('Database open request blocked:', event);
+      }
+    }
+  }
+};
 ```
 
 ### Utility
