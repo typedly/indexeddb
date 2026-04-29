@@ -37,7 +37,7 @@ type Schema = {
   posts: Post;
 };
 
-export class TestClass1<Schema extends { [key in string]: any }> {
+export class TestClass1<Schema extends IDBSchema> {
   constructor(private stores: IDBStoresFromSchema<Schema>) {}
 
   public add<Name extends keyof Schema>(store: Name, value: Schema[Name]) {

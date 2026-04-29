@@ -36,6 +36,10 @@ export type {
   IDBSchema,
   IDBStoresFromSchema,
   IDBStoresParameters,
+  // Settings.
+  IDBConnectionSettings,
+  IDBSettings,
+  IDBSettingsWithConnection,
   // Utility Types.
   IDBKeyPath,
   InsertValue,
